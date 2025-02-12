@@ -23,7 +23,7 @@ First, go and get cosmovisor (recommended approach):
 go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@latest
 
 To install a previous version, you can specify the version after the @ sign. Note that versions older than 1.4.0 can also target a specific version, at a slightly different location:
-go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0
+go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.5.0
 ```
 
 {% hint style="danger" %}
@@ -43,15 +43,14 @@ This will return something like:
 ```
 
 {% hint style="info" %}
-Building from source allows you to target a specific version of Cosmovisor, in case you do not want to run 1.0.0 yet.
+Building from source allows you to target a specific version of Cosmovisor, in case you do not want to run 1.7.0 yet.
 {% endhint %}
 
-You can also build from source; cosmovisor is in the main `cosmos-sdk` repo on Github, so you can use Git tags to target a specific version. This example uses a tag, `v0.42.7` that refers to the Cosmos SDK, as Cosmovisor-specific tags did not exist before August 2021. The first of these was `cosmovisor/v0.1.0`, and the second is the current release, `cosmovisor/v1.0.0`.
-
+You can also build from source; cosmovisor is in the main `cosmos-sdk` repo on Github, so you can use Git tags to target a specific version. This example uses a tag, `cosmovisor/v1.5.0`, the current more stable version as some bugs are reported on v1.7.0.
 ```bash
 git clone https://github.com/cosmos/cosmos-sdk
 cd cosmos-sdk
-git checkout v0.42.7
+git checkout cosmovisor/v1.5.0
 make cosmovisor
 cp cosmovisor/cosmovisor $GOPATH/bin/cosmovisor
 cd $HOME
@@ -167,19 +166,15 @@ Environment="DAEMON_NAME=junod"
 Environment="DAEMON_HOME=/home/<your-user>/.juno"
 Environment="DAEMON_ALLOW_DOWNLOAD_BINARIES=false"
 Environment="DAEMON_RESTART_AFTER_UPGRADE=true"
-Environment="DAEMON_LOG_BUFFER_SIZE=512"
+Environment="UNSAFE_SKIP_BACKUP=true"
 
 [Install]
 WantedBy=multi-user.target
 ```
 
 {% hint style="info" %}
-A description of what the environment variables do can be found [here](https://docs.cosmos.network/master/run-node/cosmovisor.html). Change them depending on your setup.
+A description of what the environment variables do can be found [here](https://docs.cosmos.network/main/build/tooling/cosmovisor). Change them depending on your setup.
 {% endhint %}
-
-Note also that we set buffer size explicitly because of a [live bug in Cosmovisor](https://github.com/cosmos/cosmos-sdk/pull/8590) before version `v1.0.0`. If you are using `v1.0.0`, you may omit that line.
-
-In addition, the same issue can be fixed by reducing the log via env variable. If you are unsure, ask on Discord.
 
 ## Start Cosmovisor
 
